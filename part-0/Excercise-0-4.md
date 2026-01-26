@@ -3,37 +3,36 @@ sequenceDiagram
     participant browser
     participant server
 
-    Note right of browser: User writes a note in the form input
-    Note right of browser: User clicks the Save button
-
+    Note right of browser: User writes text and clicks Save button
+    
     browser->>server: POST https://studies.cs.helsinki.fi/exampleapp/new_note
     activate server
-    Note right of server: Server reads req.body.note and creates a new note
-    Note right of server: Note is added to in-memory notes array
-    server-->>browser: HTTP 302 Redirect to /notes
+    Note right of server: Server creates new note object and adds it to notes array
+    server-->>browser: HTTP 302 redirect to /notes
     deactivate server
-
+    
     Note right of browser: Browser follows redirect and reloads the Notes page
-
+    
     browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/notes
     activate server
     server-->>browser: HTML document
     deactivate server
-
+    
     browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/main.css
     activate server
-    server-->>browser: CSS file
+    server-->>browser: the css file
     deactivate server
-
+    
     browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/main.js
     activate server
-    server-->>browser: JavaScript file
+    server-->>browser: the JavaScript file
     deactivate server
-
+    
+    Note right of browser: The browser starts executing the JavaScript code that fetches the JSON from the server
+    
     browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/data.json
     activate server
-    server-->>browser: Updated notes JSON
+    server-->>browser: [{ "content": "HTML is easy", "date": "2023-1-1" }, ... ]
     deactivate server
-
-    Note right of browser: Browser renders the updated notes list
-
+    
+    Note right of browser: The browser executes the callback function that renders the notes including the new note
