@@ -1,3 +1,4 @@
+// I actually have the course component as a separate module
 import SumExercises from './SumExcercises'
 
 
