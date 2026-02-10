@@ -1,6 +1,10 @@
+import SumExercises from './SumExcercises'
+
+
 const Header = ({ course }) => {
   return <h1>{course.name}</h1>
 }
+
 
 const Part = ({ part }) => {
   return (
@@ -25,6 +29,7 @@ const Course = ({ course }) => {
     <div>
       <Header course={course} />
       <Content parts={course.parts} />
+      <SumExercises course={course} />
     </div>
   )
 }
