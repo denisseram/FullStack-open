@@ -31,12 +31,24 @@ const App = () => {
       <form onSubmit={addPerson}>
         <div>
           name: <input value={newName} onChange={handleNameChange} />
+
         </div>
+        <div>
+          number: <input value={newNumber} onChange={handleNumberChange} />
+        </div>
+
         <div>
           <button type="submit">add</button>
         </div>
       </form>
       <h2>Numbers</h2>
+
+      <form>
+        <div>name: <input /></div>
+        <div>number: <input /></div>
+        <div><button type="submit">add</button></div>
+      </form>
+
       {persons.map(person => <div key={person.name}>{person.name}</div>)}
       <div>debug: {newName}</div>
     </div>
