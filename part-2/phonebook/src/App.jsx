@@ -32,9 +32,17 @@ const App = () => {
     }
     
     const newPerson = { name: newName, number: newNumber }
-    setPersons(persons.concat(newPerson))
-    setNewName('')
-    setNewNumber('')
+    
+    axios
+      .post('http://localhost:3001/persons', newPerson)
+      .then(response => {
+        setPersons(persons.concat(response.data))
+        setNewName('')
+        setNewNumber('')
+      })
+      .catch(error => {
+        console.error('Error adding person:', error)
+      })
   }
 
   const handleNameChange = (event) => {
