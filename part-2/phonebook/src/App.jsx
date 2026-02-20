@@ -57,6 +57,19 @@ const App = () => {
     setSearchTerm(event.target.value)
   }
 
+  const deletePerson = (id, name) => {
+    if (window.confirm(`Delete ${name}?`)) {
+      personService
+        .deleteById(id)
+        .then(() => {
+          setPersons(persons.filter(person => person.id !== id))
+        })
+        .catch(error => {
+          console.error('Error deleting person:', error)
+        })
+    }
+  }
+
   const personsToShow = persons.filter(person =>
     person.name.toLowerCase().includes(searchTerm.toLowerCase())
   )
@@ -79,7 +92,7 @@ const App = () => {
 
       <h3>Numbers</h3>
 
-      <Persons personsToShow={personsToShow} />
+      <Persons personsToShow={personsToShow} onDelete={deletePerson} />
 
       <div>debug: {newName} {newNumber} {searchTerm}</div>
     </div>
