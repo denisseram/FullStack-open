@@ -24,26 +24,41 @@ const App = () => {
   const addPerson = (event) => {
     event.preventDefault()
     
-    const nameExists = persons.some(person => person.name.toLowerCase() === newName.toLowerCase())
+    const existingPerson = persons.find(person => person.name.toLowerCase() === newName.toLowerCase())
     
-    if (nameExists) {
-      alert(`${newName} is already added to phonebook`)
+    if (existingPerson) {
+      if (window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)) {
+        const updatedPerson = { ...existingPerson, number: newNumber }
+        
+        personService
+          .update(existingPerson.id, updatedPerson)
+          .then(response => {
+            setPersons(persons.map(person => 
+              person.id !== existingPerson.id ? person : response.data
+            ))
+            setNewName('')
+            setNewNumber('')
+          })
+          .catch(error => {
+            console.error('Error updating person:', error)
+          })
+      }
       return
     }
-    
-    const newPerson = { name: newName, number: newNumber }
-    
-    personService
-      .create(newPerson)
-      .then(response => {
-        setPersons(persons.concat(response.data))
-        setNewName('')
-        setNewNumber('')
-      })
-      .catch(error => {
-        console.error('Error adding person:', error)
-      })
-  }
+  
+  const newPerson = { name: newName, number: newNumber }
+  
+  personService
+    .create(newPerson)
+    .then(response => {
+      setPersons(persons.concat(response.data))
+      setNewName('')
+      setNewNumber('')
+    })
+    .catch(error => {
+      console.error('Error adding person:', error)
+    })
+}
 
   const handleNameChange = (event) => {
     setNewName(event.target.value)
