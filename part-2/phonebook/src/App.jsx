@@ -33,13 +33,16 @@ const App = () => {
         personService
           .update(existingPerson.id, updatedPerson)
           .then(response => {
-            setPersons(persons.map(person => 
-              person.id !== existingPerson.id ? person : response.data
-            ))
+            setPersons(prevPersons =>
+              prevPersons.map(person =>
+                person.id !== existingPerson.id ? person : response.data
+              )
+            )
             setNewName('')
             setNewNumber('')
           })
           .catch(error => {
+            alert('Failed to update the person. They may have been removed from the server.')
             console.error('Error updating person:', error)
           })
       }
