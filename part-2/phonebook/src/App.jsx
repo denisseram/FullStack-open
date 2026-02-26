@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import Filter from './Filter'
 import PersonForm from './PersonForm'
 import Persons from './Persons'
+import Notification from './Notification'
 import personService from './personService'
 
 const App = () => {
@@ -9,6 +10,7 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [searchTerm, setSearchTerm] = useState('')
+  const [notification, setNotification] = useState({ message: null, type: null })
 
   useEffect(() => {
     personService
@@ -20,6 +22,13 @@ const App = () => {
         console.error('Error fetching data:', error)
       })
   }, [])
+
+  const showNotification = (message, type) => {
+    setNotification({ message, type })
+    setTimeout(() => {
+      setNotification({ message: null, type: null })
+    }, 5000)
+  }
 
   const addPerson = (event) => {
     event.preventDefault()
@@ -38,11 +47,16 @@ const App = () => {
                 person.id !== existingPerson.id ? person : response.data
               )
             )
+            showNotification(`Updated ${newName}'s number`, 'success')
             setNewName('')
             setNewNumber('')
           })
           .catch(error => {
-            alert('Failed to update the person. They may have been removed from the server.')
+            showNotification(
+              `Information of ${newName} has already been removed from server`,
+              'error'
+            )
+            setPersons(persons.filter(p => p.id !== existingPerson.id))
             console.error('Error updating person:', error)
           })
       }
@@ -55,11 +69,13 @@ const App = () => {
     .create(newPerson)
     .then(response => {
       setPersons(persons.concat(response.data))
+      showNotification(`Added ${newName}`, 'success')
       setNewName('')
       setNewNumber('')
     })
     .catch(error => {
       console.error('Error adding person:', error)
+      showNotification('Failed to add person', 'error')
     })
 }
 
@@ -81,9 +97,11 @@ const App = () => {
         .deleteById(id)
         .then(() => {
           setPersons(persons.filter(person => person.id !== id))
+          showNotification(`Deleted ${name}`, 'success')
         })
         .catch(error => {
           console.error('Error deleting person:', error)
+          showNotification(`Failed to delete ${name}`, 'error')
         })
     }
   }
@@ -95,6 +113,8 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+
+      <Notification message={notification.message} type={notification.type} />
 
       <Filter searchTerm={searchTerm} handleSearchChange={handleSearchChange} />
 
@@ -111,8 +131,6 @@ const App = () => {
       <h3>Numbers</h3>
 
       <Persons personsToShow={personsToShow} onDelete={deletePerson} />
-
-      <div>debug: {newName} {newNumber} {searchTerm}</div>
     </div>
   )
 }
