@@ -101,7 +101,7 @@ const App = () => {
         })
         .catch(error => {
           console.error('Error deleting person:', error)
-          showNotification(`Failed to delete ${name}`, 'error')
+          showNotification(`Failed to delete ${name}, it may have already been removed from server`, 'error')
         })
     }
   }
