@@ -36,15 +36,24 @@ const Country = ({ country }) => {
   useEffect(() => {
     if (country.capital && country.capital[0]) {
       const apiKey = import.meta.env.VITE_WEATHER_API_KEY
+      console.log('API Key exists:', !!apiKey)
+      console.log('Capital:', country.capital[0])
+      
       if (apiKey) {
+        const url = `https://api.openweathermap.org/data/2.5/weather?q=${country.capital[0]}&appid=${apiKey}&units=metric`
+        console.log('Fetching weather from:', url)
+        
         axios
-          .get(`https://api.openweathermap.org/data/2.5/weather?q=${country.capital[0]}&appid=${apiKey}&units=metric`)
+          .get(url)
           .then(response => {
+            console.log('Weather data received:', response.data)
             setWeather(response.data)
           })
           .catch(error => {
             console.log('Error fetching weather:', error)
           })
+      } else {
+        console.log('No API key found!')
       }
     }
   }, [country])
