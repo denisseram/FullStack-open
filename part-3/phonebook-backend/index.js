@@ -4,6 +4,8 @@ const app = express()
 
 app.use(cors())
 
+app.use(express.json())  
+
 const persons = [
   { 
     id: "1",
@@ -26,6 +28,25 @@ const persons = [
     number: "39-23-6423122"
   }
 ]
+
+app.post('/api/persons', (request, response) => {
+  const body = request.body
+
+  // Generate random id
+  const id = Math.floor(Math.random() * 1000000) + 1;
+  // Create new person object with id, name, number
+  const newPerson = {
+    id: id.toString(),
+    name: body.name,
+    number: body.number
+  }
+
+  // Add to persons array (hint: persons.push() or persons.concat())
+  persons.push(newPerson)
+
+  // Return the new person as JSON
+  response.json(newPerson)
+})
 
 app.get('/api/persons/:id', (request, response) => {
   const id = request.params.id
