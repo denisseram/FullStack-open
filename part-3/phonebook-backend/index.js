@@ -37,6 +37,17 @@ app.get('/api/persons/:id', (request, response) => {
   }
 })
 
+app.delete('/api/persons/:id', (request, response) => {
+  const id = request.params.id
+  const personIndex = persons.findIndex(p => p.id === id)
+  if (personIndex !== -1) {
+    persons.splice(personIndex, 1)
+    response.status(204).end()
+  } else {
+    response.status(404).end()
+  }
+})
+
 app.get('/info', (request, response) => {
   const date = new Date()
   response.send(`
