@@ -32,6 +32,18 @@ const persons = [
 app.post('/api/persons', (request, response) => {
   const body = request.body
 
+  if (!body.name) {
+    return response.status(400).json({ error: 'name is missing' })
+  }
+
+  if (!body.number) {
+    return response.status(400).json({ error: 'number is missing' })
+  }
+
+  if (persons.find(p => p.name === body.name)) {
+    return response.status(400).json({ error: 'name must be unique' })
+  }
+
   // Generate random id
   const id = Math.floor(Math.random() * 1000000) + 1;
   // Create new person object with id, name, number

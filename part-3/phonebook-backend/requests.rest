@@ -5,3 +5,29 @@ Content-Type: application/json
   "name": "Test Person",
   "number": "123-456789"
 }
+
+### Test: Missing name (should fail)
+POST http://localhost:3001/api/persons
+Content-Type: application/json
+
+{
+  "number": "123-456789"
+}
+
+### Test: Missing number (should fail)
+POST http://localhost:3001/api/persons
+Content-Type: application/json
+
+{
+  "name": "New Person"
+}
+
+### Test: Duplicate name (should fail)
+POST http://localhost:3001/api/persons
+Content-Type: application/json
+
+{
+  "name": "Arto Hellas",
+  "number": "999-999999"
+}
+
