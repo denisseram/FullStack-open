@@ -1,3 +1,13 @@
+### Get all persons
+GET http://localhost:3001/api/persons
+
+### Get a single person
+GET http://localhost:3001/api/persons/1
+
+### Get info
+GET http://localhost:3001/info
+
+### Create a new person
 POST http://localhost:3001/api/persons
 Content-Type: application/json
 
@@ -5,6 +15,9 @@ Content-Type: application/json
   "name": "Test Person",
   "number": "123-456789"
 }
+
+### Delete a person
+DELETE http://localhost:3001/api/persons/2
 
 ### Test: Missing name (should fail)
 POST http://localhost:3001/api/persons
