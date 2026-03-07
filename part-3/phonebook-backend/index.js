@@ -39,6 +39,10 @@ const persons = [
   }
 ]
 
+app.get('/api/persons', (request, response) => {
+  response.json(persons)
+})
+
 app.post('/api/persons', (request, response) => {
   const body = request.body
 
