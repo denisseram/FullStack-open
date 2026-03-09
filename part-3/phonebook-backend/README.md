@@ -6,9 +6,7 @@ Phonebook application backend built with Node.js and Express.
 
 ### Live Application
 
-🔗 [Phonebook Backend](https://phonebook-backend-denisse.onrender.com)
-
-Replace the link above with your actual Render deployment URL.
+[Phonebook Backend](https://phonebook-backend-denisse.onrender.com)
 
 ### API Endpoints
 
